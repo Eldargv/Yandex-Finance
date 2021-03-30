@@ -30,7 +30,7 @@ public class FavoriteFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.rv_favorite);
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new StocksAdapter(FavoriteList, view.getContext()));
+        recyclerView.setAdapter(new StocksAdapter(FavoriteList));
         return view;
     }
 }

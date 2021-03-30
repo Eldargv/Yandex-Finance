@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,15 +17,16 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:contentInsetStart="0dp"
             app:layout_scrollFlags="scroll|snap|enterAlways">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="16dp"
                 android:focusable="false"
-                android:background="@drawable/background_searchview" />
+                android:background="@drawable/background_searchview"
+                android:layout_marginTop="16dp"/>
 
         </androidx.appcompat.widget.Toolbar>
 

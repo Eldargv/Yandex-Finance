@@ -58,17 +58,14 @@ public class DefaultFragment extends Fragment {
                     tv.setText("Stocks");
                     tv.setTextSize(28);
                     tv.setTextColor(Color.BLACK);
-                    tab.setCustomView(tv);
-
                     Log.i("TAG", "first tab attached");
                 } else {
                     tv.setText("Favorite");
                     tv.setTextSize(18);
                     tv.setTextColor(Color.GRAY);
-                    tab.setCustomView(tv);
-
                     Log.i("TAG", "second tab attached");
                 }
+                tab.setCustomView(tv);
             }
         }).attach();
 

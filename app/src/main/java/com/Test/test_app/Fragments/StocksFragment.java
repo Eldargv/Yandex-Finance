@@ -59,12 +59,12 @@ public class StocksFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.rv_stocks);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        stocksAdapter = new StocksAdapter(StockList, view.getContext());
+        stocksAdapter = new StocksAdapter(StockList);
         recyclerView.setAdapter(stocksAdapter);
 
-        apiHolder = MainActivity.getApp().getFinanceService().getApiHolder();
+        apiHolder = MainActivity.getApp().getApiHolder();
 
-        //StartThread(view);
+        // StartThread(view);
 
         getStocks();
     }
@@ -95,38 +95,45 @@ public class StocksFragment extends Fragment {
             Log.i(TAG, "Got constituents");
 
             for (int i = 0; i < Math.min(constituents.size(), 15); i++) {
-                StockList.add(new CompanyModel());
+                CompanyModel model = new CompanyModel();
                 Log.i(TAG, "Trying to get Profile of " + constituents.get(i));
                 Call<CompanyProfile> companyProfileCall = apiHolder.getProfile(constituents.get(i));
                 try {
                     CompanyProfile profile = companyProfileCall.execute().body();
-                    StockList.get(i).setTicker(profile.getTicker());
-                    StockList.get(i).setName(profile.getName());
-                    StockList.get(i).setLogoUrl(profile.getLogo());
+                    model.setTicker(profile.getTicker());
+                    model.setName(profile.getName());
+                    model.setLogoUrl(profile.getLogo());
                     Log.i(TAG, "Got Profile of " + profile.getTicker());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            for (int i = 0; i < 15; i++) {
                 Call<QuoteModel> quoteModelCall = apiHolder.getQuote(constituents.get(i));
                 Log.i(TAG, "Trying to get Quote of " + constituents.get(i));
                 try {
                     QuoteModel quote = quoteModelCall.execute().body();
-                    StockList.get(i).setCurrentPrice(quote.getCurrent());
-                    StockList.get(i).setDifferent(quote.getDifferent());
-                    Log.i(TAG, "Got Quote of " + StockList.get(i).getTicker());
+                    model.setCurrentPrice(quote.getCurrent());
+                    model.setDifferent(quote.getDifferent());
+                    Log.i(TAG, "Got Quote of " + model.getTicker());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("TAG", "Trying post to Main Activity");
+                        StockList.add(model);
+                        stocksAdapter.notifyItemChanged(StockList.size() - 1);
+                    }
+                });
+            }/*
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     stocksAdapter.notifyDataSetChanged();
                 }
-            });
+            });*/
         }
     }
 
@@ -147,7 +154,7 @@ public class StocksFragment extends Fragment {
                 }
                 List<String> constituents = response.body().getConstituents();
                 Log.i(TAG, "Got constituents");
-                for (int i = 0; i < Math.min(constituents.size(), 15); i++) {
+                for (int i = 0; i < Math.min(constituents.size(), 10); i++) {
                     getProfile(constituents.get(i));
 
                 }
@@ -202,7 +209,7 @@ public class StocksFragment extends Fragment {
                 CM.setDifferent(response.body().getDifferent());
                 Log.i(TAG, "Got Quote of " + symbol);
                 StockList.add(CM);
-                stocksAdapter.notifyDataSetChanged();
+                stocksAdapter.notifyItemChanged(StockList.size() - 1);
             }
 
             @Override

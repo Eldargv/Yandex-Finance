@@ -2,6 +2,7 @@ package com.Test.test_app;
 
 import android.app.Application;
 
+import com.Test.test_app.Api.ApiHolder;
 import com.Test.test_app.Api.FinanceService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -27,7 +28,7 @@ public class App extends Application {
         imageLoader.init(config);
     }
 
-    public FinanceService getFinanceService() {
-        return financeService;
+    public ApiHolder getApiHolder() {
+        return financeService.getApiHolder();
     }
 }

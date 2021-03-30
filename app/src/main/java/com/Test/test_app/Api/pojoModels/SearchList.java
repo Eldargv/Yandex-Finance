@@ -3,16 +3,18 @@ package com.Test.test_app.Api.pojoModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
-public class SearchRequest {
+public class SearchList {
 
     @SerializedName("count")
     @Expose
     private Integer count;
     @SerializedName("result")
     @Expose
-    private List<SearchResultList> result = null;
+    private List<SearchResultList> result;
 
     public Integer getCount() {
         return count;
@@ -20,9 +22,5 @@ public class SearchRequest {
 
     public List<SearchResultList> getResult() {
         return result;
-    }
-
-    public void setResult(List<SearchResultList> result) {
-        this.result = result;
     }
 }

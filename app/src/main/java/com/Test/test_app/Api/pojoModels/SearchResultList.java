@@ -8,8 +8,22 @@ public class SearchResultList {
     @SerializedName("symbol")
     @Expose
     private String symbol;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("type")
+    @Expose
+    private String type;
 
     public String getSymbol() {
         return symbol;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getType() {
+        return type;
     }
 }

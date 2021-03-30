@@ -3,8 +3,7 @@ package com.Test.test_app.Api;
 import com.Test.test_app.Api.pojoModels.CompanyProfile;
 import com.Test.test_app.Api.pojoModels.ConstituentModel;
 import com.Test.test_app.Api.pojoModels.QuoteModel;
-
-import org.json.JSONObject;
+import com.Test.test_app.Api.pojoModels.SearchList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -22,5 +21,5 @@ public interface ApiHolder {
     Call<QuoteModel> getQuote(@Query("symbol") String symbol);
 
     @GET("search")
-    Call<JSONObject> getJsonRequest(@Query("q") String q);
+    Call<SearchList> getSearchList(@Query("q") String q);
 }
