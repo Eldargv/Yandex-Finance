@@ -1,8 +1,13 @@
 package com.Test.test_app;
 
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.ImageView;
+
 public class CompanyModel {
     private String Ticker, Name, LogoUrl, Currency;
     private Double CurrentPrice, Different;
+    int star = R.drawable.star_unselected;
 
     public CompanyModel() {
     }
@@ -53,5 +58,13 @@ public class CompanyModel {
 
     public void setLogoUrl(String logoUrl) {
         LogoUrl = logoUrl;
+    }
+
+    public void setStarMode(int resource) {
+        star = resource;
+    }
+
+    public int getStarMode() {
+        return star;
     }
 }

@@ -1,5 +1,6 @@
 package com.Test.test_app.Fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,15 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.Test.test_app.Api.ApiHolder;
-import com.Test.test_app.Api.FinanceService;
 import com.Test.test_app.Api.pojoModels.CompanyProfile;
 import com.Test.test_app.Api.pojoModels.ConstituentModel;
 import com.Test.test_app.Api.pojoModels.QuoteModel;
-import com.Test.test_app.App;
 import com.Test.test_app.CompanyModel;
 import com.Test.test_app.MainActivity;
 import com.Test.test_app.R;
-import com.Test.test_app.StocksAdapter;
+import com.Test.test_app.Adapters.StocksAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StocksFragment extends Fragment {
+public class StocksFragment extends Fragment implements StocksAdapter.OnStarListener {
 
     private ApiHolder apiHolder;
     private StocksAdapter stocksAdapter;
@@ -59,7 +58,7 @@ public class StocksFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.rv_stocks);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        stocksAdapter = new StocksAdapter(StockList);
+        stocksAdapter = new StocksAdapter(StockList, this);
         recyclerView.setAdapter(stocksAdapter);
 
         apiHolder = MainActivity.getApp().getApiHolder();
@@ -74,7 +73,18 @@ public class StocksFragment extends Fragment {
         RequestThread requestThread = new RequestThread("^GSPC");
         new Thread(requestThread).start();
     }
-    
+
+    @Override
+    public void onStarClick(int position) {
+        Log.i("TAG", "Star ckicked");
+        int r = R.drawable.star_selected;;
+        if (StockList.get(position).getStarMode() == R.drawable.star_selected) {
+            r = R.drawable.star_unselected;
+        }
+        StockList.get(position).setStarMode(r);
+        stocksAdapter.notifyItemChanged(position);
+    }
+
     public class RequestThread implements Runnable {
         private String symbol;
 

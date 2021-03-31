@@ -1,4 +1,4 @@
-package com.Test.test_app;
+package com.Test.test_app.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.Test.test_app.R;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.StocksVH> {
 

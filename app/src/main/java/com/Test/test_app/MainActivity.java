@@ -8,20 +8,20 @@ import androidx.appcompat.widget.SearchView;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.Test.test_app.Adapters.StocksAdapter;
 import com.Test.test_app.Fragments.DefaultFragment;
 import com.Test.test_app.Fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private static App app;
-    private static FragmentActivity fragmentActivity;
     private SearchView searchView;
-    private Toolbar toolbar;
     private SearchFragment searchFragment = null;
     private DefaultFragment defaultFragment;
 
@@ -33,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
         Log.i("TAG", "activity started");
 
         app = (App)getApplication();
-        fragmentActivity = this;
 
         //toolbar = findViewById(R.id.toolbar);
         searchView = (SearchView)findViewById(R.id.search_view);
         searchView.setQueryHint("Find company of ticker");
         defaultFragment = new DefaultFragment();
         searchFragment = SearchFragment.newInstance("");
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, defaultFragment)
                 .disallowAddToBackStack()
@@ -109,17 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static float spToPx(float sp, Context context) {
-        return (float) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics());
-    }
-
     public static App getApp() {
         return app;
     }
-
-    public static FragmentActivity getFragmentAtivity() {
-        return fragmentActivity;
-    }
-
 
 }

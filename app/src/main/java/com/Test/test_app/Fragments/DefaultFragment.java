@@ -15,9 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.Test.test_app.MainActivity;
 import com.Test.test_app.R;
-import com.Test.test_app.ViewPagerAdapter;
+import com.Test.test_app.Adapters.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 

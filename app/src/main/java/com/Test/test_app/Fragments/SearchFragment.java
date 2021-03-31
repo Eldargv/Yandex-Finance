@@ -22,7 +22,7 @@ import com.Test.test_app.Api.pojoModels.SearchResultList;
 import com.Test.test_app.CompanyModel;
 import com.Test.test_app.MainActivity;
 import com.Test.test_app.R;
-import com.Test.test_app.StocksAdapter;
+import com.Test.test_app.Adapters.StocksAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,8 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment
-{
+public class SearchFragment extends Fragment implements StocksAdapter.OnStarListener {
     private static final String ARG_TEXT = "argQuery";
     private String Query = "";
     private ArrayList<CompanyModel> StockList = new ArrayList<CompanyModel>();
@@ -56,12 +55,7 @@ public class SearchFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_page_stocks, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.rv_stocks);
-        Context context = view.getContext();
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new StocksAdapter(StockList));
-        return view;
+        return inflater.inflate(R.layout.activity_page_stocks, container, false);
     }
 
     @Override
@@ -70,7 +64,7 @@ public class SearchFragment extends Fragment
         RecyclerView recyclerView = view.findViewById(R.id.rv_stocks);
         Context context = view.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        stocksAdapter = new StocksAdapter(StockList);
+        stocksAdapter = new StocksAdapter(StockList, this);
         recyclerView.setAdapter(stocksAdapter);
 
         apiHolder = MainActivity.getApp().getApiHolder();
@@ -99,6 +93,11 @@ public class SearchFragment extends Fragment
         new Thread(stockRunnable).start();
     }
 
+    @Override
+    public void onStarClick(int position) {
+
+    }
+
     class StockRunnable implements Runnable {
         @Override
         public void run() {
@@ -107,6 +106,10 @@ public class SearchFragment extends Fragment
                 Response<SearchList> response = call.execute();
                 if (response.code() == 429) {
                     Toast.makeText(getActivity(), "API limit reached. Please try again later", Toast.LENGTH_LONG).show();
+                }
+                if (response.body().getCount() == 0) {
+                    Toast.makeText(getActivity(), "Nothing", Toast.LENGTH_LONG).show();
+                    return;
                 }
                 HashMap<String, Integer> count = new HashMap<String, Integer>();
                 List<SearchResultList> result = response.body().getResult();
