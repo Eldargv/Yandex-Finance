@@ -128,36 +128,6 @@ public class SearchFragment extends Fragment implements StocksAdapter.OnStarList
         }
     }
 
-    void getStocks(String query) {
-        Call<SearchList> call = apiHolder.getSearchList(query);
-        call.enqueue(new Callback<SearchList>() {
-            @Override
-            public void onResponse(Call<SearchList> call, Response<SearchList> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "API limit reached. Please try again later", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (response.body().getCount() == 0) {
-                    Toast.makeText(getActivity(), "Nothing", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                HashMap<String, Integer> count = new HashMap<String, Integer>();
-                List<SearchResultList> result = response.body().getResult();
-                for (int i = 0; i < response.body().getCount(); i++) {
-                    SearchResultList res = result.get(i);
-                    if (res.getType().equals("Common Stock") && count.get(res.getDescription()) == null) {
-                        getProfile(res.getSymbol());
-                        count.put(res.getDescription(), 1);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SearchList> call, Throwable t) {
-                Log.i(TAG, t.getMessage());
-            }
-        });
-    }
     void getProfile(String symbol) {
         Call<CompanyProfile> call = apiHolder.getProfile(symbol);
         call.enqueue(new Callback<CompanyProfile>() {

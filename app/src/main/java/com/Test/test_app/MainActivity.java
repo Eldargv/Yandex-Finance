@@ -2,19 +2,11 @@ package com.Test.test_app;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
 import androidx.appcompat.widget.SearchView;
 
-import android.app.FragmentManager;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
 
-import com.Test.test_app.Adapters.StocksAdapter;
 import com.Test.test_app.Fragments.DefaultFragment;
 import com.Test.test_app.Fragments.SearchFragment;
 
@@ -34,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         app = (App)getApplication();
 
-        //toolbar = findViewById(R.id.toolbar);
         searchView = (SearchView)findViewById(R.id.search_view);
         searchView.setQueryHint("Find company of ticker");
         defaultFragment = new DefaultFragment();
@@ -54,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, defaultFragment)
                 .commit();
-        /*searchFragment.onDestroy();/*
-        getSupportFragmentManager().beginTransaction()
-                .remove(searchFragment)
-                .commit();*/
     }
 
     @Override
@@ -81,30 +68,24 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("TAG", "Search clicked");
-                if (searchFragment == null) {
-                    searchFragment = new SearchFragment();
-                }
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, searchFragment)
-                        .addToBackStack(null)
-                        .commit();
+        searchView.setOnSearchClickListener(v -> {
+            Log.i("TAG", "Search clicked");
+            if (searchFragment == null) {
+                searchFragment = new SearchFragment();
             }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, searchFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                Log.i("TAG", "Search closed");
-                searchFragment = SearchFragment.newInstance("");
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, defaultFragment)
-                        .addToBackStack(null)
-                        .commit();
-                return false;
-            }
+        searchView.setOnCloseListener(() -> {
+            Log.i("TAG", "Search closed");
+            searchFragment = SearchFragment.newInstance("");
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, defaultFragment)
+                    .addToBackStack(null)
+                    .commit();
+            return false;
         });
 
     }

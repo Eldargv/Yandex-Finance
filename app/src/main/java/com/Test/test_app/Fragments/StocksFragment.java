@@ -1,9 +1,6 @@
 package com.Test.test_app.Fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +23,6 @@ import com.Test.test_app.MainActivity;
 import com.Test.test_app.R;
 import com.Test.test_app.Adapters.StocksAdapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +34,8 @@ public class StocksFragment extends Fragment implements StocksAdapter.OnStarList
 
     private ApiHolder apiHolder;
     private StocksAdapter stocksAdapter;
-    private ArrayList<CompanyModel> StockList = new ArrayList<>();
-    private RecyclerView RvStocks;
+    private ArrayList<CompanyModel> StockList = new ArrayList<CompanyModel>();
     private final String TAG = "TAG";
-    private StocksFragment context = this;
 
     public StocksFragment() {
     }
@@ -63,88 +57,18 @@ public class StocksFragment extends Fragment implements StocksAdapter.OnStarList
 
         apiHolder = MainActivity.getApp().getApiHolder();
 
-        // StartThread(view);
-
         getStocks();
-    }
-
-
-    public void StartThread(View view) {
-        RequestThread requestThread = new RequestThread("^GSPC");
-        new Thread(requestThread).start();
     }
 
     @Override
     public void onStarClick(int position) {
         Log.i("TAG", "Star ckicked");
-        int r = R.drawable.star_selected;;
+        int r = R.drawable.star_selected;
         if (StockList.get(position).getStarMode() == R.drawable.star_selected) {
             r = R.drawable.star_unselected;
         }
         StockList.get(position).setStarMode(r);
         stocksAdapter.notifyItemChanged(position);
-    }
-
-    public class RequestThread implements Runnable {
-        private String symbol;
-
-        public RequestThread(String symbol) {
-            this.symbol = symbol;
-        }
-
-        @Override
-        public void run() {
-            List<String> constituents = new ArrayList<String>();
-            Call<ConstituentModel> call = apiHolder.getConstituents(symbol);
-            Log.i(TAG, "Trying to get constituents");
-            try {
-                constituents = call.execute().body().getConstituents();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Log.i(TAG, "Got constituents");
-
-            for (int i = 0; i < Math.min(constituents.size(), 15); i++) {
-                CompanyModel model = new CompanyModel();
-                Log.i(TAG, "Trying to get Profile of " + constituents.get(i));
-                Call<CompanyProfile> companyProfileCall = apiHolder.getProfile(constituents.get(i));
-                try {
-                    CompanyProfile profile = companyProfileCall.execute().body();
-                    model.setTicker(profile.getTicker());
-                    model.setName(profile.getName());
-                    model.setLogoUrl(profile.getLogo());
-                    Log.i(TAG, "Got Profile of " + profile.getTicker());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Call<QuoteModel> quoteModelCall = apiHolder.getQuote(constituents.get(i));
-                Log.i(TAG, "Trying to get Quote of " + constituents.get(i));
-                try {
-                    QuoteModel quote = quoteModelCall.execute().body();
-                    model.setCurrentPrice(quote.getCurrent());
-                    model.setDifferent(quote.getDifferent());
-                    Log.i(TAG, "Got Quote of " + model.getTicker());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i("TAG", "Trying post to Main Activity");
-                        StockList.add(model);
-                        stocksAdapter.notifyItemChanged(StockList.size() - 1);
-                    }
-                });
-            }/*
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    stocksAdapter.notifyDataSetChanged();
-                }
-            });*/
-        }
     }
 
     @Override
