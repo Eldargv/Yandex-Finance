@@ -12,6 +12,9 @@ import com.Test.test_app.Fragments.StocksFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
+    private StocksFragment stocksFragment;
+    private FavoriteFragment favoriteFragment;
+
     public ViewPagerAdapter(FragmentActivity fm) {
         super(fm);
     }
@@ -21,10 +24,12 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         if (position == 0) {
             Log.i("TAG", "stocks fragment created");
-            return new StocksFragment();
+            stocksFragment = new StocksFragment();
+            return stocksFragment;
         } else {
             Log.i("TAG", "favorite fragment created");
-            return new FavoriteFragment();
+            favoriteFragment = new FavoriteFragment();
+            return favoriteFragment;
         }
     }
 
@@ -33,4 +38,11 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         return 2;
     }
 
+    public FavoriteFragment getFavoriteFragment() {
+        return favoriteFragment;
+    }
+
+    public StocksFragment getStocksFragment() {
+        return stocksFragment;
+    }
 }

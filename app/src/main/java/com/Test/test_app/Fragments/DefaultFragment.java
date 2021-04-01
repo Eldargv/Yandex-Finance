@@ -22,7 +22,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class DefaultFragment extends Fragment {
 
-    private static DefaultFragment defaultFragment;
+    private ViewPagerAdapter pagerAdapter;
     
     public DefaultFragment(){
     }
@@ -34,7 +34,7 @@ public class DefaultFragment extends Fragment {
 
         Log.i("TAG", "trying create new viewpager");
         ViewPager2 viewPager = view.findViewById(R.id.viewpager);
-        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getActivity());
+        pagerAdapter = new ViewPagerAdapter(getActivity());
 
         Log.i("TAG", "new viewpager created");
 
@@ -45,7 +45,7 @@ public class DefaultFragment extends Fragment {
         final float constDisp = getResources().getDisplayMetrics().scaledDensity;
         final float startSize = 18 * constDisp;
         final float endSize = 28 * constDisp;
-        long animationDuration = 100;
+        final long animationDuration = 100;
 
         TabLayout tabLayout = view.findViewById(R.id.tabs);
         Log.i("TAG", "trying to attach tabs");
@@ -79,12 +79,9 @@ public class DefaultFragment extends Fragment {
                 ValueAnimator animator = ValueAnimator.ofFloat(startSize, endSize);
                 animator.setDuration(animationDuration);
 
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        float animatedValue = (float) valueAnimator.getAnimatedValue();
-                        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, animatedValue);
-                    }
+                animator.addUpdateListener(valueAnimator -> {
+                    float animatedValue = (float) valueAnimator.getAnimatedValue();
+                    tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, animatedValue);
                 });
 
                 animator.start();

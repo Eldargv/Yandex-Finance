@@ -1,11 +1,24 @@
 package com.Test.test_app;
 
-public class CompanyModel {
-    private String Ticker, Name, LogoUrl, Currency;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
+public class Stock {
+    private String Ticker, Name, Currency;
     private Double CurrentPrice, Different;
+    private Bitmap Logo;
     private int star = R.drawable.star_unselected;
 
-    public CompanyModel() {
+    public Stock() {
+    }
+
+    public void setLogo(Bitmap logo) {
+        Logo = logo;
+    }
+
+    public Bitmap getLogo() {
+        return Logo;
     }
 
     public void setCurrency(String currency) {
@@ -22,10 +35,6 @@ public class CompanyModel {
 
     public double getDifferent() {
         return Different;
-    }
-
-    public String getLogoUrl() {
-        return LogoUrl;
     }
 
     public String getName() {
@@ -50,10 +59,6 @@ public class CompanyModel {
 
     public void setTicker(String ticker) {
         Ticker = ticker;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        LogoUrl = logoUrl;
     }
 
     public void setStarMode(int resource) {

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Test.test_app.CompanyModel;
+import com.Test.test_app.Stock;
 import com.Test.test_app.R;
 import com.Test.test_app.Adapters.StocksAdapter;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class FavoriteFragment extends Fragment implements StocksAdapter.OnStarListener {
 
-    private ArrayList<CompanyModel> FavoriteList = new ArrayList<CompanyModel>();
+    private ArrayList<Stock> FavoriteList = new ArrayList<Stock>();
     private StocksAdapter stocksAdapter;
 
     public FavoriteFragment() {
