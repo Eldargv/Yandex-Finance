@@ -42,8 +42,8 @@ public class App extends Application {
         imageLoader.init(config);
 
         dataBase = Room.databaseBuilder(getApplicationContext(),
-                DataBase.class, "app-db-name")
-                .allowMainThreadQueries()
+                DataBase.class, "stock_database")
+                .fallbackToDestructiveMigration()
                 .build();
         stockDao = dataBase.stockDao();
     }

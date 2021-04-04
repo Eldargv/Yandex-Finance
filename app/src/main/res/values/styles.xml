@@ -7,6 +7,10 @@
         <item name="android:fontFamily">@font/montserrat_bold</item>
         <item name="tabMode">fixed</item>
         <item name="android:layout_marginBottom">0dp</item>
-        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:left">0dp</item>
+        <item name="android:right">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
     </style>
 </resources>

@@ -31,7 +31,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static App app;
     private SearchView searchView;
     private SearchFragment searchFragment = null;
     private DefaultFragment defaultFragment;
@@ -45,9 +44,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i("TAG", "trying include activity");
         setContentView(R.layout.activity_main);
         Log.i("TAG", "activity started");
-
-        app = (App)getApplication();
-        apiHolder = app.getApiHolder();
 
         searchView = (SearchView)findViewById(R.id.search_view);
         searchView.setQueryHint("Find company of ticker");
@@ -64,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Log.i("TAG", "Back button pressed");
-        searchFragment = SearchFragment.newInstance("");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, defaultFragment)
                 .commit();
@@ -76,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query == null || query.isEmpty()) {
-                    return false;
-                }
                 Log.i("TAG", "Query getted");
+//                Bundle args = new Bundle();
+//                args.putString("argQuery", query);
+//                searchFragment.setArguments(args);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, SearchFragment.newInstance(query))
                         .commit();
@@ -93,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
         });
         searchView.setOnSearchClickListener(v -> {
             Log.i("TAG", "Search clicked");
-            if (searchFragment == null) {
-                searchFragment = new SearchFragment();
-            }
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, searchFragment)
                     .addToBackStack(null)
@@ -103,18 +95,13 @@ public class MainActivity extends AppCompatActivity {
         });
         searchView.setOnCloseListener(() -> {
             Log.i("TAG", "Search closed");
-            searchFragment = SearchFragment.newInstance("");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, defaultFragment)
-                    .addToBackStack(null)
+                    .disallowAddToBackStack()
                     .commit();
             return false;
         });
 
-    }
-
-    public static App getApp() {
-        return app;
     }
 
 }

@@ -6,7 +6,7 @@
     android:textSize="28sp"
     android:textColor="@color/black"
     android:fontFamily="@font/montserrat_bold"
-    android:text="Hi"
+    android:text="Stock"
     android:maxLines="1"
     android:gravity="start|bottom"
     android:textAllCaps="false">

@@ -23,7 +23,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class DefaultFragment extends Fragment {
 
     private ViewPagerAdapter pagerAdapter;
-    
+
     public DefaultFragment(){
     }
 
@@ -85,6 +85,7 @@ public class DefaultFragment extends Fragment {
                 });
 
                 animator.start();
+
             }
 
             @Override
@@ -94,10 +95,10 @@ public class DefaultFragment extends Fragment {
 
                 Log.i("TAG", "Curr size in unselected = " + tv.getTextSize());
 
-                ValueAnimator animator = ValueAnimator.ofFloat(endSize, startSize);
-                animator.setDuration(animationDuration);
+                ValueAnimator animatorText = ValueAnimator.ofFloat(endSize, startSize);
+                animatorText.setDuration(animationDuration);
 
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                animatorText.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
                         float animatedValue = (float) valueAnimator.getAnimatedValue();
@@ -105,7 +106,7 @@ public class DefaultFragment extends Fragment {
                     }
                 });
 
-                animator.start();
+                animatorText.start();
             }
 
             @Override

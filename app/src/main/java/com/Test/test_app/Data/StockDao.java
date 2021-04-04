@@ -8,29 +8,26 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.Test.test_app.RoomModels.StockRoom;
+import com.Test.test_app.Stock;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
 public interface StockDao {
-//    @Query("SELECT * FROM StockRoom")
-//    ArrayList<StockRoom> getAll();
 
-    @Query("SELECT * FROM StockRoom")
-    LiveData<List<StockRoom>> getAllLiveData();
+    @Query("SELECT * FROM stock_table")
+    LiveData<List<Stock>> getFavoriteList();
 
-    @Query("SELECT * FROM StockRoom WHERE Ticker LIKE :tick")
-    StockRoom findByTicker(String tick);
+    @Query("SELECT * FROM stock_table WHERE Ticker LIKE :tick")
+    Stock findByTicker(String tick);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(StockRoom stockRoom);
+    void insert(Stock stock);
 
     @Delete
-    void delete(StockRoom stockRoom);
+    void delete(Stock stock);
 
     @Update
-    void update(StockRoom stockRoom);
+    void update(Stock stock);
 
 }
