@@ -230,11 +230,15 @@ public class StockRepository {
                 Log.i(TAG, "Got Quote of " + symbol);
                 stock.setCurrentPrice(response.body().getCurrent());
                 stock.setDifferent(response.body().getDifferent());
+                Log.i("TAG", "trying to check in favorite " + stock.getTicker());
                 if (favoriteList.getValue() != null) {
+                    Log.i("TAG", stock.getTicker() + "checked in favorite ");
                     stock.setStarMode(R.drawable.star_selected);
                     if (!Check(stock.getTicker(), favoriteList.getValue())) {
                         stock.setStarMode(R.drawable.star_unselected);
                     }
+                } else {
+                    Log.i("TAG", "Favorite was null, while " + stock.getTicker() + " is running");
                 }
                 LiveStockList.getValue().add(stock);
                 LiveStockList.setValue(LiveStockList.getValue());

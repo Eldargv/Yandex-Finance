@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,8 @@ import com.Test.test_app.Data.StockViewModel;
 import com.Test.test_app.Stock;
 import com.Test.test_app.R;
 import com.Test.test_app.Adapters.StocksAdapter;
+
+import java.util.List;
 
 public class StocksFragment extends Fragment implements StocksAdapter.OnStarListener {
 
@@ -46,7 +49,14 @@ public class StocksFragment extends Fragment implements StocksAdapter.OnStarList
 
         ProgressBar progressBar = view.findViewById(R.id.progress_bar);
 
-        model.getDefaultStocks("^GSPC");
+        Observer<List<Stock>> observer = new Observer<List<Stock>>() {
+            @Override
+            public void onChanged(List<Stock> stockList) {
+                model.getDefaultStocks("^GSPC");
+                model.fetchFavoriteList().removeObserver(this);
+            }
+        };
+        model.fetchFavoriteList().observe(getViewLifecycleOwner(), observer);
 
         model.getDefaultProcessCode().observe(getViewLifecycleOwner(), code -> {
             Log.i("TAG", "Code " + code);
