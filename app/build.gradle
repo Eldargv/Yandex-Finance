@@ -92,6 +92,7 @@ dependencies {
 
     // Annotation processor
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation 'com.chauthai.overscroll:overscroll-bouncy:0.1.1'
 
 
 }

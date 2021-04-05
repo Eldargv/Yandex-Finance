@@ -6,29 +6,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.OneShotPreDrawListener;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Test.test_app.Data.StockVIewModel;
+import com.Test.test_app.Data.StockViewModel;
 import com.Test.test_app.Stock;
 import com.Test.test_app.R;
 import com.Test.test_app.Adapters.StocksAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SearchFragment extends Fragment implements StocksAdapter.OnStarListener {
     private static final String ARG_TEXT = "argQuery";
-    private String Query = "";
     private StocksAdapter stocksAdapter;
-    private String TAG = "TAG";
-    private StockVIewModel model;
+    private StockViewModel model;
+    private ProgressBar progressBar;
 
     public SearchFragment() {
     }
@@ -51,7 +48,7 @@ public class SearchFragment extends Fragment implements StocksAdapter.OnStarList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        model = new ViewModelProvider(requireActivity()).get(StockVIewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(StockViewModel.class);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_stocks);
         Context context = view.getContext();
@@ -59,20 +56,39 @@ public class SearchFragment extends Fragment implements StocksAdapter.OnStarList
         stocksAdapter = new StocksAdapter(this);
         recyclerView.setAdapter(stocksAdapter);
 
-        model.fetchSearchList().observe(getViewLifecycleOwner(), item -> {
-            stocksAdapter.setStockList(item);
-        });
+//        model.fetchSearchList().observe(getViewLifecycleOwner(), item -> stocksAdapter.setStockList(item));
 
-        Query = getArguments().getString(ARG_TEXT);
+        String query = getArguments().getString(ARG_TEXT);
 
-        Log.i(TAG, "Start query response " + Query);
+        String TAG = "TAG";
+        Log.i(TAG, "Start query response " + query);
 
         Log.i("TAG", "Trying start a new thread");
-//        stocksAdapter.getStockList().clear();
-//        stocksAdapter.notifyDataSetChanged();
-//        if (Query)
+
         model.ClearSearchList();
-        model.getSearchStocks(getArguments().getString("argQuery"));
+        model.getSearchStocks(getArguments().getString(ARG_TEXT));
+
+        progressBar = view.findViewById(R.id.progress_bar);
+
+        if (query == null || query.isEmpty()) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+
+        model.getSearchProcessCode().observe(getViewLifecycleOwner(), code -> {
+            Log.i("TAG", "Code " + code);
+            switch (code) {
+                case 999:
+                    progressBar.setVisibility(View.INVISIBLE);
+                    stocksAdapter.setStockList(model.fetchSearchList().getValue());
+                case 429:
+                    Toast.makeText(getActivity(), R.string.apiLimit, Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    stocksAdapter.setStockList(model.fetchSearchList().getValue());
+                case 0:
+                    Toast.makeText(getActivity(), R.string.nothing, Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
@@ -92,4 +108,6 @@ public class SearchFragment extends Fragment implements StocksAdapter.OnStarList
         }
         stocksAdapter.notifyItemChanged(position);
     }
+
+
 }

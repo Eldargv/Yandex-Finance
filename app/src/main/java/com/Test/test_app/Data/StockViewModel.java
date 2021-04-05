@@ -1,7 +1,5 @@
 package com.Test.test_app.Data;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,7 +9,7 @@ import com.Test.test_app.Stock;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockVIewModel extends ViewModel {
+public class StockViewModel extends ViewModel {
 
     private StockRepository repository = new StockRepository();
 
@@ -20,7 +18,13 @@ public class StockVIewModel extends ViewModel {
     private LiveData<List<Stock>> FavoriteList = repository.getFavoriteList();
     private MutableLiveData<Stock> changedTicker = new MutableLiveData<Stock>();
 
-    private MutableLiveData<Integer> defaultProgress = new MutableLiveData<Integer>();
+    public MutableLiveData<Integer> getDefaultProcessCode() {
+        return repository.getDefaultProcessCode();
+    }
+
+    public MutableLiveData<Integer> getSearchProcessCode() {
+        return repository.getSearchProcessCode();
+    }
 
     public LiveData<List<Stock>> fetchFavoriteList() {
         return FavoriteList;
@@ -32,10 +36,6 @@ public class StockVIewModel extends ViewModel {
 
     public LiveData<List<Stock>> fetchDefaultList() {
         return defaultList;
-    }
-
-    public LiveData<Integer> fetchDefaultProcess() {
-        return repository.getDefaultProgress();
     }
 
     public void insert(Stock stock) {

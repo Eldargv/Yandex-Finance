@@ -11,30 +11,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SortedList;
 
-import com.Test.test_app.Data.StockVIewModel;
 import com.Test.test_app.Stock;
 import com.Test.test_app.R;
 import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewHolder> {
 
     private SortedList<Stock> StockList;
     private OnStarListener onStarListener;
-    private StockVIewModel model;
 
     public StocksAdapter(OnStarListener onStarListener) {
-//        this.model = model;
         this.onStarListener = onStarListener;
         StockList = new SortedList<>(Stock.class, new SortedList.Callback<Stock>() {
             @Override
@@ -66,6 +59,7 @@ public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewH
             public void onRemoved(int position, int count) {
                 Log.i("TAG", "try to remove from recycler ");
                 notifyItemRangeRemoved(position, count);
+                notifyItemRangeChanged(position, StockList.size() - 1 - count);
             }
 
             @Override
@@ -88,7 +82,7 @@ public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewH
     @Override
     public void onBindViewHolder(@NonNull StockViewHolder holder, int position) {
         Stock company = StockList.get(position);
-        int ResId = R.drawable.background_shape;
+        int ResId = R.drawable.background_shape_blue;
         if (position % 2 == 1) {
             ResId = R.drawable.background_shape_white;
         }
@@ -117,10 +111,6 @@ public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewH
         return StockList.get(pos);
     }
 
-    public SortedList<Stock> getStockList() {
-        return StockList;
-    }
-
     public void RemoveItemAt(int pos) {
         StockList.removeItemAt(pos);
     }
@@ -131,7 +121,6 @@ public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewH
         ImageView Logo, Star;
         ConstraintLayout Background;
         ImageLoader imageLoader;
-
         OnStarListener onStarListener;
 
         public StockViewHolder(View ItemView, OnStarListener onStarListener1) {

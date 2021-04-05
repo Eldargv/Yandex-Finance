@@ -10,26 +10,19 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Test.test_app.Adapters.ViewPagerAdapter;
-import com.Test.test_app.Data.StockVIewModel;
+import com.Test.test_app.Data.StockViewModel;
 import com.Test.test_app.Stock;
 import com.Test.test_app.R;
 import com.Test.test_app.Adapters.StocksAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-
 public class FavoriteFragment extends Fragment implements StocksAdapter.OnStarListener {
 
     private StocksAdapter stocksAdapter;
-    private StockVIewModel model;
+    private StockViewModel model;
 
     public FavoriteFragment() {
     }
@@ -44,7 +37,7 @@ public class FavoriteFragment extends Fragment implements StocksAdapter.OnStarLi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        model = new ViewModelProvider(requireActivity()).get(StockVIewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(StockViewModel.class);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_stocks);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));

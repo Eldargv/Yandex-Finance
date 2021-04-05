@@ -35,12 +35,4 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return 2;
     }
-
-    public static FavoriteFragment getFavoriteFragment() {
-        return favoriteFragment;
-    }
-
-    public static StocksFragment getStocksFragment() {
-        return stocksFragment;
-    }
 }

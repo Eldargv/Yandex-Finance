@@ -2,31 +2,30 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:elevation="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:contentInsetStart="0dp"
-            app:layout_scrollFlags="scroll|snap|enterAlways">
+            app:layout_scrollFlags="scroll|snap|enterAlways"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:focusable="false"
-                android:background="@drawable/background_searchview"
-                android:layout_marginTop="16dp"/>
+                android:background="@drawable/background_searchview"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -36,8 +35,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@color/white">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <fragment
             android:id="@+id/fragment"
