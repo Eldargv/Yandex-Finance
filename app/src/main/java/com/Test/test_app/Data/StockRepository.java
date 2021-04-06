@@ -188,9 +188,15 @@ public class StockRepository {
             public void onResponse(Call<CompanyProfile> call, Response<CompanyProfile> response) {
                 if (!response.isSuccessful()) {
                     responseCode.setValue(response.code());
+                    if (j == count) {
+                        responseCode.setValue(999);
+                    }
                     return;
                 }
                 if (response.body() == null || response.body().getTicker() == null || response.body().getTicker().equals("")) {
+                    if (j == count) {
+                        responseCode.setValue(999);
+                    }
                     return;
                 }
                 Stock stock = new Stock();
@@ -210,6 +216,9 @@ public class StockRepository {
             @Override
             public void onFailure(Call<CompanyProfile> call, Throwable t) {
                 Log.i(TAG, t.getMessage());
+                if (j == count) {
+                    responseCode.setValue(999);
+                }
             }
         });
     }
@@ -221,10 +230,16 @@ public class StockRepository {
             @Override
             public void onResponse(Call<QuoteModel> call, Response<QuoteModel> response) {
                 if (!response.isSuccessful()) {
+                    if (j == count) {
+                        responseCode.setValue(999);
+                    }
                     responseCode.setValue(response.code());
                     return;
                 }
                 if (response.body() == null) {
+                    if (j == count) {
+                        responseCode.setValue(999);
+                    }
                     return;
                 }
                 Log.i(TAG, "Got Quote of " + symbol);

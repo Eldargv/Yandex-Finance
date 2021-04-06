@@ -56,8 +56,6 @@ public class SearchFragment extends Fragment implements StocksAdapter.OnStarList
         stocksAdapter = new StocksAdapter(this);
         recyclerView.setAdapter(stocksAdapter);
 
-//        model.fetchSearchList().observe(getViewLifecycleOwner(), item -> stocksAdapter.setStockList(item));
-
         String query = getArguments().getString(ARG_TEXT);
 
         String TAG = "TAG";

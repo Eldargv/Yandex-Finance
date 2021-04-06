@@ -21,11 +21,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/background_searchview"/>
+            <include layout="@layout/activity_search"/>
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.Test.test_app.Data.StockViewModel;
 import com.Test.test_app.Fragments.DefaultFragment;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private DefaultFragment defaultFragment;
     private StockViewModel model;
+    private TextView hintText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,10 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         model = new ViewModelProvider(this).get(StockViewModel.class);
         searchView = findViewById(R.id.search_view);
-        searchView.setQueryHint("Find company of ticker");
+        hintText = findViewById(R.id.hint_text);
         defaultFragment = new DefaultFragment();
 
-        searchView.setOnClickListener(v -> searchView.setIconified(false));
+        searchView.setOnClickListener(v -> {
+            searchView.setIconified(false);
+            hintText.setVisibility(View.INVISIBLE);
+        });
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, defaultFragment)
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         searchView.setIconified(true);
+        hintText.setVisibility(View.VISIBLE);
         Log.i("TAG", "Back button pressed");
         model.ClearSearchList();
         getSupportFragmentManager().beginTransaction()
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         });
         searchView.setOnSearchClickListener(v -> {
             Log.i("TAG", "Search clicked");
+            hintText.setVisibility(View.INVISIBLE);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, SearchFragment.newInstance(""))
                     .addToBackStack(null)
@@ -77,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnCloseListener(() -> {
             Log.i("TAG", "Search closed");
             model.ClearSearchList();
+            hintText.setVisibility(View.VISIBLE);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, defaultFragment)
                     .disallowAddToBackStack()
