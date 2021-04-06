@@ -25,7 +25,7 @@ import java.util.List;
 public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewHolder> {
 
     private SortedList<Stock> StockList;
-    private OnStarListener onStarListener;
+    private final OnStarListener onStarListener;
 
     public StocksAdapter(OnStarListener onStarListener) {
         this.onStarListener = onStarListener;
@@ -59,7 +59,7 @@ public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewH
             public void onRemoved(int position, int count) {
                 Log.i("TAG", "try to remove from recycler ");
                 notifyItemRangeRemoved(position, count);
-                notifyItemRangeChanged(position, StockList.size() - 1 - count);
+                notifyItemRangeChanged(0, StockList.size());
             }
 
             @Override

@@ -149,11 +149,11 @@ public class StockRepository {
             try {
                 Response<SearchList> response = call.execute();
                 if (!response.isSuccessful()) {
-                    searchProcessCode.setValue(response.code());
+                    searchProcessCode.postValue(response.code());
                     return;
                 }
                 if (response.body().getCount() == 0) {
-                    searchProcessCode.setValue(0);
+                    searchProcessCode.postValue(0);
                     return;
                 }
                 List<SearchResultList> result = response.body().getResult();
@@ -164,7 +164,7 @@ public class StockRepository {
                         getProfile(res.getSymbol(), searchList, searchProcessCode, i + 1, response.body().getCount());
                         Thread.sleep(300);
                     } else if (i == response.body().getCount() - 1) {
-                        searchProcessCode.setValue(999);
+                        searchProcessCode.postValue(999);
                     }
                 }
             } catch (IOException | InterruptedException e) {

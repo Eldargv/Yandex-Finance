@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Test_app</string>
+    <string name="app_name">Investing</string>
     <string name="Stocks">Stocks</string>
     <string name="Favorite">Favorite</string>
     <string name="apiLimit">API limit reached. Please try again later</string>

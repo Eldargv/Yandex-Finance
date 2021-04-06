@@ -80,13 +80,16 @@ public class SearchFragment extends Fragment implements StocksAdapter.OnStarList
                 case 999:
                     progressBar.setVisibility(View.INVISIBLE);
                     stocksAdapter.setStockList(model.fetchSearchList().getValue());
+                    break;
                 case 429:
                     Toast.makeText(getActivity(), R.string.apiLimit, Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.INVISIBLE);
                     stocksAdapter.setStockList(model.fetchSearchList().getValue());
+                    break;
                 case 0:
                     Toast.makeText(getActivity(), R.string.nothing, Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.INVISIBLE);
+                    break;
             }
         });
     }

@@ -49,14 +49,13 @@ public class StocksFragment extends Fragment implements StocksAdapter.OnStarList
 
         ProgressBar progressBar = view.findViewById(R.id.progress_bar);
 
-        Observer<List<Stock>> observer = new Observer<List<Stock>>() {
+        model.fetchFavoriteList().observe(getViewLifecycleOwner(), new Observer<List<Stock>>() {
             @Override
             public void onChanged(List<Stock> stockList) {
                 model.getDefaultStocks("^GSPC");
                 model.fetchFavoriteList().removeObserver(this);
             }
-        };
-        model.fetchFavoriteList().observe(getViewLifecycleOwner(), observer);
+        });
 
         model.getDefaultProcessCode().observe(getViewLifecycleOwner(), code -> {
             Log.i("TAG", "Code " + code);
