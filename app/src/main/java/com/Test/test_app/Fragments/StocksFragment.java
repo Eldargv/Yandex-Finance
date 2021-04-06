@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Test.test_app.Data.StockViewModel;
+import com.Test.test_app.MainActivity;
 import com.Test.test_app.Stock;
 import com.Test.test_app.R;
 import com.Test.test_app.Adapters.StocksAdapter;
@@ -54,6 +55,10 @@ public class StocksFragment extends Fragment implements StocksAdapter.OnStarList
             public void onChanged(List<Stock> stockList) {
                 model.getDefaultStocks("^GSPC");
                 model.fetchFavoriteList().removeObserver(this);
+                if (MainActivity.isNetworkState()) {
+                    Log.i("TAG", "Trying to update favorite");
+                    model.updateFavoriteQuotes();
+                }
             }
         });
 

@@ -49,6 +49,7 @@ public class FavoriteFragment extends Fragment implements StocksAdapter.OnStarLi
         progressBar.setVisibility(View.INVISIBLE);
 
         model.fetchFavoriteList().observe(getViewLifecycleOwner(), item -> {
+            if (item == null) return;
             stocksAdapter.setStockList(item);
             Log.i("TAG", "Favorite data changed");
         });

@@ -5,4 +5,5 @@
     <string name="apiLimit">API limit reached. Please try again later</string>
     <string name="nothing">Nothing was found for your search</string>
     <string name="queryHint">Find company of ticker</string>
+    <string name="snack">Outdated prices - connection is not established</string>
 </resources>

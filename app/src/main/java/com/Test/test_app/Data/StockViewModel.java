@@ -15,7 +15,7 @@ public class StockViewModel extends ViewModel {
 
     private MutableLiveData<List<Stock>> searchList = repository.getSearchList();
     private MutableLiveData<List<Stock>> defaultList = repository.getDefaultList();
-    private LiveData<List<Stock>> FavoriteList = repository.getFavoriteList();
+    private LiveData<List<Stock>> favoriteList = repository.getFavoriteList();
     private MutableLiveData<Stock> changedTicker = new MutableLiveData<Stock>();
 
     public MutableLiveData<Integer> getDefaultProcessCode() {
@@ -27,7 +27,7 @@ public class StockViewModel extends ViewModel {
     }
 
     public LiveData<List<Stock>> fetchFavoriteList() {
-        return FavoriteList;
+        return favoriteList;
     }
 
     public LiveData<List<Stock>> fetchSearchList() {
@@ -70,5 +70,9 @@ public class StockViewModel extends ViewModel {
     public void ClearSearchList() {
         repository.InterruptSearch();
         searchList.setValue(new ArrayList<Stock>());
+    }
+
+    public void updateFavoriteQuotes() {
+        repository.updateFavoriteQuotes();
     }
 }

@@ -63,30 +63,15 @@ public class StockRepository {
 
     public void insert(Stock stock) {
         Log.i("TAG", "Try to insert a new stock in the thread");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                stockDao.insert(stock);
-            }
-        }).start();
+        new Thread(() -> stockDao.insert(stock)).start();
     }
 
     public void update(Stock stock) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                stockDao.update(stock);
-            }
-        }).start();
+        new Thread(() -> stockDao.update(stock)).start();
     }
 
     public void delete(Stock stock) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                stockDao.delete(stock);
-            }
-        }).start();
+        new Thread(() -> stockDao.delete(stock)).start();
     }
 
     public LiveData<List<Stock>> getFavoriteList() {
@@ -100,6 +85,8 @@ public class StockRepository {
 
     private MutableLiveData<Integer> defaultProcessCode = new MutableLiveData<>();
     private MutableLiveData<Integer> searchProcessCode = new MutableLiveData<>();
+    private MutableLiveData<Integer> favoriteProcessCode = new MutableLiveData<>();
+
     private Thread searchThread = null;
 
     private ApiHolder apiHolder = App.getInstance().getApiHolder();
@@ -119,6 +106,36 @@ public class StockRepository {
 
     public MutableLiveData<Integer> getSearchProcessCode() {
         return searchProcessCode;
+    }
+
+    public void updateFavoriteQuotes() {
+        if (favoriteList.getValue() == null) return;
+        Log.i("TAG", "Favorite update started");
+        MutableLiveData<List<Stock>> tmpFav = new MutableLiveData<>();
+        tmpFav.setValue(new ArrayList<Stock>());
+        for (int i = 0; i < favoriteList.getValue().size(); i++) {
+            Stock stock = favoriteList.getValue().get(i);
+            int j = i;
+            Call<QuoteModel> call = apiHolder.getQuote(stock.getTicker());
+            call.enqueue(new Callback<QuoteModel>() {
+                @Override
+                public void onResponse(Call<QuoteModel> call, Response<QuoteModel> response) {
+                    if (!response.isSuccessful()) {
+                        return;
+                    }
+                    Log.i(TAG, "Got Quote of " + stock.getTicker());
+                    stock.setCurrentPrice(response.body().getCurrent());
+                    stock.setDifferent(response.body().getDifferent());
+                    favoriteList.getValue().get(j).setCurrentPrice(stock.getCurrentPrice());
+                    favoriteList.getValue().get(j).setDifferent(stock.getDifferent());
+                }
+
+                @Override
+                public void onFailure(Call<QuoteModel> call, Throwable t) {
+                    return;
+                }
+            });
+        }
     }
 
     public void getStocks(String index) {
