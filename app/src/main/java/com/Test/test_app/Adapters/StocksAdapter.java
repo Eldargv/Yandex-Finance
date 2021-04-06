@@ -1,12 +1,14 @@
 package com.Test.test_app.Adapters;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,8 @@ import com.Test.test_app.Stock;
 import com.Test.test_app.R;
 import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -166,6 +170,27 @@ public class StocksAdapter extends RecyclerView.Adapter<StocksAdapter.StockViewH
                     .error(R.drawable.placeholder)
                     .placeholder(R.drawable.placeholder)
                     .into(Logo);
+//            imageLoader.loadImage(logoUrl, new ImageLoadingListener() {
+//                @Override
+//                public void onLoadingStarted(String imageUri, View view) {
+//
+//                }
+//
+//                @Override
+//                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+//
+//                }
+//
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                    Logo.setImageBitmap(loadedImage);
+//                }
+//
+//                @Override
+//                public void onLoadingCancelled(String imageUri, View view) {
+//
+//                }
+//            });
         }
 
         @Override
