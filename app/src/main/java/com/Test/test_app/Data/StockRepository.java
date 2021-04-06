@@ -1,10 +1,7 @@
 package com.Test.test_app.Data;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.view.View;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -18,9 +15,6 @@ import com.Test.test_app.Api.pojoModels.SearchResultList;
 import com.Test.test_app.App;
 import com.Test.test_app.R;
 import com.Test.test_app.Stock;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,10 +23,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.SortedMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,12 +76,11 @@ public class StockRepository {
 
     private MutableLiveData<Integer> defaultProcessCode = new MutableLiveData<>();
     private MutableLiveData<Integer> searchProcessCode = new MutableLiveData<>();
-    private MutableLiveData<Integer> favoriteProcessCode = new MutableLiveData<>();
 
     private Thread searchThread = null;
 
-    private ApiHolder apiHolder = App.getInstance().getApiHolder();
-    private String TAG = "TAG";
+    private final ApiHolder apiHolder = App.getInstance().getApiHolder();
+    private final String TAG = "TAG";
 
     public MutableLiveData<List<Stock>> getDefaultList() {
         return defaultList;
