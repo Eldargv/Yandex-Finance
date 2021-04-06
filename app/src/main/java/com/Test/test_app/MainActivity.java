@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.Test.test_app.Data.StockViewModel;
 import com.Test.test_app.Fragments.DefaultFragment;
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.search_view);
         searchView.setQueryHint("Find company of ticker");
         defaultFragment = new DefaultFragment();
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);
+            }
+        });
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, defaultFragment)
