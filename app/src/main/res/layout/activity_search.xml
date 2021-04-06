@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_searchview"
+        app:queryBackground="@color/transparent"/>
+
+    <TextView
+        android:id="@+id/hint_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="45dp"
+        android:gravity="center"
+        android:text="@string/queryHint"
+        android:textSize="16sp"
+        android:textColor="@color/name_gray"
+        android:fontFamily="@font/montserrat_semibold"/>
+
+</FrameLayout>
