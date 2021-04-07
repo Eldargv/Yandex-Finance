@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        searchView.setQuery("", false);
         searchView.setIconified(true);
         hintText.setVisibility(View.VISIBLE);
         Log.i("TAG", "Back button pressed");
